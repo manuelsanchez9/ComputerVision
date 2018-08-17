@@ -158,7 +158,6 @@ plt.imshow(np.uint8(Im_ga))
 plt.figure()
 plt.gray()
 plt.imshow(Im2)
-"""
 
 import numpy as np
 from PIL import Image
@@ -176,14 +175,61 @@ plt.figure()
 plt.gray()
 plt.imshow(Im2)
 
-
-
-
-
-    
+from PIL import Image, ImageFilter
  
+foto = Image.open('fruit.jpg').convert('L')
+ 
+#Laplace
+coeficientes = [1, 1, 1, 1, -8, 1, 1, 1, 1]
+datos_laplace = foto.filter(ImageFilter.Kernel((3,3), coeficientes, 1)).getdata()
+#datos de la imagen
+datos_imagen = foto.getdata()
+ 
+#factor de escalado
+w = 1 / 3
+ 
+#datos de imagen menos datos de Laplace escalados
+datos_nitidez = [datos_imagen[x] - (w * datos_laplace[x]) for x in range(len(datos_laplace))]
+ 
+imagen_nitidez = Image.new('L', foto.size)
+imagen_nitidez.putdata(datos_nitidez)
+imagen_nitidez.save('fruitExample.jpg')
+ 
+foto.close()
+imagen_nitidez.close()
+"""
 
+from PIL import Image
 
+foto=Image.open('fruit.jpg')
+
+#si la imagen no es a escala de grises se hace la conversion
+if foto.mode != 'L':
+    foto=foto.convert('L')
+
+#el umbral esta forzosamente comprendido entre 1 y 254 para las
+#imagenes de 8 bits a escala de grises
+umbral=65
+
+datos=foto.getdata()
+datos_binarios=[]
+
+for x in datos:
+    if x<umbral:
+        datos_binarios.append(0)
+        continue
+    #si es mayor o igual a umbral se agrega 1 en ves de 0
+    #podria hacerse con 255 en ves de 1
+    datos_binarios.append(1)
+
+#en caso de utilizar 255 como valor superior el metodo new
+#llevaria 'L' en ves de '1' en el primer argumento
+nueva_imagen=Image.new('1', foto.size)
+nueva_imagen.putdata(datos_binarios)
+nueva_imagen.save('fruitExample.jpg')
+
+nueva_imagen.close()
+foto.close()
 
 
 
