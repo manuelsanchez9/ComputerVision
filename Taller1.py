@@ -14,7 +14,7 @@ import my_linealT as trans
 
 Im_g = Image.open('fruit.jpg').convert('L')
 Im_ga = np.array(Im_g)
-Im2 = trans.my_gamma(Im_ga, 25.0)
+Im2 = trans.my_gamma(Im_ga, 0.05)
 plt.gray()
 plt.imshow(np.uint8(Im_ga))
 plt.figure()
