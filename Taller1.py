@@ -12,7 +12,7 @@ import sys
 sys.path.append('D:\Computer Vision Repository')
 import my_linealT as trans
 
-Im_g = Image.open('fruit.jpg').convert('L')
+Im_g = Image.open('img2.jpg').convert('L')
 Im_ga = np.array(Im_g)
 Im2 = trans.my_gamma(Im_ga, 0.05)
 plt.gray()
@@ -20,5 +20,5 @@ plt.imshow(np.uint8(Im_ga))
 plt.figure()
 plt.gray()
 Im = Image.fromarray(Im2)
-Im.save('fruit250.jpg')
+Im.save('img2250.jpg')
 plt.imshow(Im2)

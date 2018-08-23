@@ -11,7 +11,7 @@ import numpy as np
 from PIL import Image
 import matplotlib.pyplot as plt
 import sys
-sys.path.append('D:\SINCRONIZACIÓN\Google Drive\SEMESTRE 9\VISIÓN ARTIFICIAL\TALLER 1')
+sys.path.append('D:\Computer Vision Repository')
 import funcionLinealTrozos as flt
 
 imageLoaded = Image.open('img_Problema_2.JPG').convert('L')

@@ -197,7 +197,7 @@ imagen_nitidez.save('fruitExample.jpg')
  
 foto.close()
 imagen_nitidez.close()
-"""
+
 
 from PIL import Image
 
@@ -233,6 +233,28 @@ nueva_imagen.save('fruitExample120135.jpg')
 
 nueva_imagen.close()
 foto.close()
+"""
+import numpy as np
+from PIL import Image
+import matplotlib.pyplot as plt
+import sys
+sys.path.append('D:\Computer Vision Repository')
+import my_linealT as trans
+
+Im_g = Image.open('img1.jpg').convert('L')
+Im_ga = np.array(Im_g)
+plt.gray()
+plt.imshow(Im_ga)
+plt.axis("off")
+
+h = trans.my_hist(Im_ga)
+plt.figure()
+plt.bar(np.arange(256),h)
+
+Im_eq = trans.my_equal(Im_ga,h)
+plt.figure()
+plt.gray()
+plt.imshow(Im_eq)
 
 
 
