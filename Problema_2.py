@@ -14,7 +14,7 @@ import sys
 sys.path.append('D:\Computer Vision Repository')
 import funcionLinealTrozos as flt
 
-imageLoaded = Image.open('img_Problema_2.JPG').convert('L')
+imageLoaded = Image.open('img1.jpg').convert('L')
 arrayImage = np.array(imageLoaded)
 plt.gray()
 plt.imshow(np.uint8(arrayImage))
