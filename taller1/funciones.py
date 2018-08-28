@@ -3,7 +3,9 @@
 Created on Tue Aug 28 16:39:39 2018
 
 @author: Manuel Sanchez
+
 Funciones
+
 """
 import numpy as np
 

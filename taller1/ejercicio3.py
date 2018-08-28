@@ -3,28 +3,28 @@
 Created on Tue Aug 28 16:43:16 2018
 
 @author: Manuel Sanchez
+
 Ejercicio 3
+
 """
 
 import numpy as np
 from PIL import Image
 import matplotlib.pyplot as plt
-#import sys
-#sys.path.append('C:\Users\salak401\Desktop\ComputerVision\taller1')
-import funciones as flt
+import funciones as fun
 
-imageLoaded = Image.open('fruit.jpg').convert('L')
-arrayImage = np.array(imageLoaded)
+image = Image.open('fruit.jpg').convert('L')
+imageArray = np.array(image)
 plt.gray()
-plt.imshow(np.uint8(arrayImage))
-valuesList = [(20,240),(40,200),(80,180),(100,150),(120,135)]
+plt.imshow(np.uint8(imageArray))
+values = [(20,240),(40,200),(80,180),(100,150),(120,135)]
 
-for i in valuesList:
+for i in values:
     A = i[0]
     B = i[1]
-    imageList = flt.grayBlack(imageLoaded, A, B)
-    imageResponse = Image.new('1', imageLoaded.size)
-    imageResponse.putdata(imageList)
+    sendImage = fun.grayBlack(image, A, B)
+    returnImage = Image.new('1', image.size)
+    returnImage.putdata(sendImage)
     plt.figure()
     plt.gray()
-    plt.imshow(imageResponse)
+    plt.imshow(returnImage)
