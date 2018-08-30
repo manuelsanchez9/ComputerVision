@@ -234,7 +234,7 @@ nueva_imagen.save('fruitExample120135.jpg')
 nueva_imagen.close()
 foto.close()
 
-import numpy as np
+import numpy as npx
 from PIL import Image
 import matplotlib.pyplot as plt
 import sys
@@ -254,7 +254,6 @@ Im_eq = trans.my_equal(Im_ga,h)
 plt.figure()
 plt.gray()
 plt.imshow(Im_eq)
-"""
 
 import numpy as np
 from PIL import Image
@@ -264,15 +263,15 @@ sys.path.append('D:\Computer Vision Repository')
 import my_linealT as trans
 
 
-#Im_g = Image.open('img2.jpg').convert('L')
-#Im_ga = np.array(Im_g)
-#Im2 = trans.my_gamma(Im_ga, 0.05)
-#plt.gray()
-#plt.imshow(np.uint8(Im_ga))
-#plt.figure()
-#plt.gray()
-#Im = Image.fromarray(Im2)
-#plt.imshow(Im2)
+Im_g = Image.open('img2.jpg').convert('L')
+Im_ga = np.array(Im_g)
+Im2 = trans.my_gamma(Im_ga, 0.05)
+plt.gray()
+plt.imshow(np.uint8(Im_ga))
+plt.figure()
+plt.gray()
+Im = Image.fromarray(Im2)
+plt.imshow(Im2)
     
 x = np.array[(0.05, 0.10, 0.20, 0.50, 1, 1.5, 2.5, 5.0, 10.0, 25.0)]
 
@@ -287,7 +286,35 @@ for i in x:
     plt.gray()
     plt.imshow(imageResponse)
 
-    
+import numpy as np
+from PIL import Image
+import matplotlib.pyplot as plt
+import funciones as fun
+
+image = Image.open('img2.jpg').convert('L')
+sendImage = fun.logarithm(image)
+plt.gray()
+plt.imshow(np.uint8(image))
+plt.figure()
+plt.gray()
+plt.imshow(sendImage)
+
+
+import numpy as np
+from PIL import Image
+import matplotlib.pyplot as plt
+import funciones as fun
+
+image = Image.open('fruit.jpg').convert('L')
+imagePrint = np.array(image)
+plt.figure()
+plt.imshow(imagePrint)
+
+imageView = fun.negative(image)
+plt.figure()
+plt.imshow(imageView)
+"""
+
 
 
 

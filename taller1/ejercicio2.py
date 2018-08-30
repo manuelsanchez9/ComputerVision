@@ -23,8 +23,6 @@ for i in values:
     A = i[0]
     B = i[1]
     sendImage = fun.grayWhite(image, A, B)
-    returnImage = Image.new('1', image.size)
-    returnImage.putdata(sendImage)
     plt.figure()
     plt.gray()
-    plt.imshow(returnImage)
+    plt.imshow(sendImage)
