@@ -2,7 +2,7 @@
 """
 Created on Tue Aug 28 16:42:36 2018
 
-@author: Manuel Sanchez
+@author: Manuel Andres Sanchez Muñoz
 
 Ejercicio 2
 

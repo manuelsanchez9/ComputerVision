@@ -2,7 +2,7 @@
 """
 Created on Tue Aug 28 16:39:39 2018
 
-@author: Manuel Andres Sanchez Muñoz
+@author: Manuel Sanchez
 
 Funciones
 
@@ -55,7 +55,7 @@ def rgb2ycbcr(im):
     xform = np.array([[.299, .587, .114], [-.169, -.331, .5], [.5, -.419, -.081]])
     ycbcr = im.dot(xform.T)
     ycbcr[:,:,[1,2]] += 128
-    return np.double(ycbcr)
+    return np.uint8(ycbcr)
 
 def ycbcr2rgb(im):
     xform = np.array([[1, 0, 1.403], [1, -0.344, -.714], [1, 1.773, 0]])

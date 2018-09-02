@@ -313,9 +313,134 @@ plt.imshow(imagePrint)
 imageView = fun.negative(image)
 plt.figure()
 plt.imshow(imageView)
+
+A = [[20,0,20],[20,1,20],[3,11,10]];
+acumuladorMatriz = float(0);
+suma = 0
+
+for x in range (0,3):
+    acumuladorFilas = float(0);
+    acumuladorColumnas = float(0);
+        
+    for y in range (0,3):        
+        acumuladorFilas = acumuladorFilas + A[x][y];
+        acumuladorColumnas = acumuladorColumnas + A[y][x];
+        
+        if A[x][y] >= 10:
+            cont =+ 1
+            suma = suma + cont  
+            
+    acumuladorMatriz = acumuladorMatriz + acumuladorFilas; 
+        
+#    print("La suma de la fila " + str(x + 1) + " es de: " + str(acumuladorFilas))
+    print("La suma de la columna " + str(x + 1) + " es de: " + str(acumuladorColumnas))
+    print("El promedio de la fila " + str(x + 1) + " es de: " + str(acumuladorFilas/3));
+#    print("El promedio de la columna " + str(x + 1) + " es de: " + str(acumuladorColumnas/3))
+#print("El promedio de toda la matriz es de: " + str(acumuladorMatriz/9));
+print ("El numero de elementos iguales o mayores a 10 es: " + str(suma))
+
+import numpy as np
+from PIL import Image
+import matplotlib.pyplot as plt
+import funciones as fun
+
+Im = Image.open('fruit.jpg')
+plt.figure()
+plt.gray()
+plt.imshow(Im)
+
+image = Image.open('fruit.jpg').convert('L')
+imagePrint = np.array(image)
+plt.figure()
+plt.imshow(imagePrint)
+imageView = fun.negative(image)
+plt.figure()
+plt.imshow(imageView)
+
+x = np.array([0.5, 3])
+
+Im_g = Image.open('fruit.jpg').convert('L')
+
+for i in x:
+    A = i    
+    Im_ga = np.array(Im_g)
+    imageList = fun.my_gamma(Im_ga, A)
+    
+    plt.figure()
+    plt.gray()
+    plt.imshow(imageList)
+
+import numpy as np
+from PIL import Image
+import matplotlib.pyplot as plt
+import funciones as fun
+
+Im_g = Image.open('muchaLuz.jpg').convert('L')
+Im_ga = np.array(Im_g)
+plt.gray()
+plt.imshow(Im_ga)
+
+h = fun.my_hist(Im_ga)
+plt.figure()
+plt.bar(np.arange(256),h)
+
+Im_eq = fun.my_equal(Im_ga,h)
+plt.figure()
+plt.gray()
+plt.imshow(Im_eq)
+
+h1 = fun.my_hist(Im_eq)
+plt.figure()
+plt.bar(np.arange(256),h1)
+
+r = input("introduce el valor de r: ")
+s = input("introduce el valor de s: ")
+
+i = 0
+acum = 0
+
+while i < s:    
+    i += 1
+    suma = r ** i     
+    acum = acum + suma
+acumResult = acum + 1
+print("El valor hallado es: " + str(acumResult))
 """
+    
+import numpy as np
+from PIL import Image
+import matplotlib.pyplot as plt
+import funciones as fun
+
+Im_g = Image.open('opaca.jpg').convert('L')
+Im_ga = np.array(Im_g)
+plt.gray()
+plt.imshow(Im_ga)
+
+h = fun.my_hist(Im_ga)
+plt.figure()
+plt.bar(np.arange(256),h)
+
+Im_eq = fun.my_equal(Im_ga,h)
+plt.figure()
+plt.gray()
+plt.imshow(Im_eq)
+
+h1 = fun.my_hist(Im_eq)
+plt.figure()
+plt.bar(np.arange(256),h1)     
 
 
+
+    
+    
+    
+    
+    
+    
+    
+        
+    
 
 
 

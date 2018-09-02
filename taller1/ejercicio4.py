@@ -2,7 +2,7 @@
 """
 Created on Tue Aug 28 16:43:49 2018
 
-@author: Manuel Sanchez
+@author: Manuel Andres Sanchez Muñoz
 
 Ejercicio 4
 
@@ -13,13 +13,13 @@ from PIL import Image
 import matplotlib.pyplot as plt
 import funciones as fun
 
-image = Image.open('opaca.jpg').convert('RGB')
+image = Image.open('rain.jpg').convert('RGB')
 plt.figure()
 plt.gray()
 plt.imshow(image)
 
-doubleImage = np.double(image)
-returnImage = fun.rgb2ycbcr(doubleImage)
+imageA = np.array(image)
+returnImage = fun.rgb2ycbcr(imageA)
 plt.figure()
 plt.gray()  
 plt.imshow(returnImage)
@@ -33,7 +33,7 @@ plt.imshow(Viewimage)
 Viewimagedouble = np.double(Viewimage)
 returnImage3 = fun.rgb2ycbcr(Viewimagedouble)
 Y =  returnImage3[:,:,0]
-Yi = np.uint8(Y/Y.max()+255)
+Yi = np.uint8(255*Y/Y.max())
 h = fun.my_hist(Yi)
 Yeq = fun.my_equal(Yi, h)
 returnImage3[:,:,0] = Yeq
