@@ -405,7 +405,6 @@ while i < s:
     acum = acum + suma
 acumResult = acum + 1
 print("El valor hallado es: " + str(acumResult))
-"""
     
 import numpy as np
 from PIL import Image
@@ -428,9 +427,71 @@ plt.imshow(Im_eq)
 
 h1 = fun.my_hist(Im_eq)
 plt.figure()
-plt.bar(np.arange(256),h1)     
+plt.bar(np.arange(256),h1)   
 
+import numpy as np
+from PIL import Image
+import matplotlib.pyplot as plt
+from scipy.ndimage import filters
 
+Im_g = Image.open('img3.jpg').convert('L')
+Im_ga = np.array(Im_g)
+plt.gray()
+plt.imshow(Im_ga)
+
+Im_f1 = filters.uniform_filter(Im_ga,3)
+plt.figure()
+plt.gray()
+plt.imshow(Im_f1)
+
+import numpy as np
+from PIL import Image
+import matplotlib.pyplot as plt
+from scipy.ndimage import filters
+
+Im_g = Image.open('img3.jpg').convert('L')
+Im_ga = np.array(Im_g)
+plt.gray()
+plt.imshow(Im_ga)
+
+Im_f1 = filters.gaussian_filter(Im_ga,3)
+plt.figure()
+plt.gray()
+plt.imshow(Im_f1)
+"""
+
+import numpy as np
+from PIL import Image
+import matplotlib.pyplot as plt
+from scipy.ndimage import filters
+import funciones as fun
+
+Im_g = Image.open('noise2.jpg').convert('L')
+Im_ga = np.array(Im_g)
+plt.gray()
+plt.imshow(Im_ga)
+
+[row, col] = Im_ga.shape;
+Im_n = np.double(Im_ga)
+for i in range(0,row-1):
+    for j in range (0,col-1):
+        Im_n[i,j] = Im_n[i,j]+np.random.uniform(0,100)
+
+plt.figure()
+plt.gray()
+plt.imshow(Im_n)
+plt.title("Imagen con ruido")
+
+Im_f1 = filters.gaussian_filter(Im_n,0.7)
+plt.figure()
+plt.gray()
+plt.imshow(Im_f1) 
+plt.title("Filtro Gaussiano")
+
+#para corroborar que el mse esta bien se le envia 2 veces la misma
+#imagen y debe devolver 0 
+
+print (fun.my_mse(Im_f1, Im_n))
 
     
     

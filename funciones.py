@@ -86,6 +86,11 @@ def negative(image):
     imageSend = 255 - imageReturn
     return imageSend
 
+def my_mse(image1,image2):
+    [n,l] = image1.shape
+    n = n * l
+    mse = sum(sum((image1-image2)**2))/n
+    return mse
 
 
 
