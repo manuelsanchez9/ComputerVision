@@ -458,7 +458,6 @@ Im_f1 = filters.gaussian_filter(Im_ga,3)
 plt.figure()
 plt.gray()
 plt.imshow(Im_f1)
-"""
 
 import numpy as np
 from PIL import Image
@@ -492,10 +491,33 @@ plt.title("Filtro Gaussiano")
 #imagen y debe devolver 0 
 
 print (fun.my_mse(Im_f1, Im_n))
+"""
 
-    
-    
-    
+import numpy as np
+from PIL import Image
+import matplotlib.pyplot as plt
+import funciones as fun
+
+Im_g = Image.open('building.jpg').convert('L')
+Im_ga = np.array(Im_g)
+plt.gray()
+plt.imshow(Im_ga)
+
+[Ig, Ix, Iy] = fun.my_gradient(Im_ga)
+plt.figure()
+plt.gray()
+plt.imshow(Ix) 
+plt.title("Derivada en x")
+
+plt.figure()
+plt.gray()
+plt.imshow(Iy) 
+plt.title("Derivada en y")
+
+plt.figure()
+plt.gray()
+plt.imshow(Ig) 
+plt.title("Gradiente")    
     
     
     
