@@ -9,6 +9,7 @@ Funciones
 """
 import numpy as np
 import scipy.signal as sg
+from PIL import Image
 
 def my_gamma(image,gamma):
     Im_ga = np.double(image)
@@ -127,6 +128,18 @@ def my_mseRGB(image1,image2):
     mse = sum(sum(sum((image1-image2)**2)))/N
     return mse
 
+def my_threshold(im,umbral):
+    datos=im.getdata()
+    datos_binarios=[]
+
+    for x in datos:
+        if x < umbral:
+            datos_binarios.append(1)
+            continue
+    datos_binarios.append(0)
+
+    ibn=Image.new('1', im.size)
+    ibn.putdata(datos_binarios)
 
 
 

@@ -491,7 +491,6 @@ plt.title("Filtro Gaussiano")
 #imagen y debe devolver 0 
 
 print (fun.my_mse(Im_f1, Im_n))
-"""
 
 import numpy as np
 from PIL import Image
@@ -502,6 +501,7 @@ Im_g = Image.open('building.jpg').convert('L')
 Im_ga = np.array(Im_g)
 plt.gray()
 plt.imshow(Im_ga)
+plt.title("Imagen en esacala de grises")
 
 [Ig, Ix, Iy] = fun.my_gradient(Im_ga)
 plt.figure()
@@ -519,10 +519,89 @@ plt.gray()
 plt.imshow(Ig) 
 plt.title("Gradiente")    
     
-    
-    
-    
-        
+import numpy as np
+from PIL import Image
+import matplotlib.pyplot as plt
+
+Im_g = Image.open('building.jpg').convert('L')
+Im_ga = np.array(Im_g)
+plt.gray()
+plt.imshow(Im_ga, cmap='hot')
+plt.title("Imagen con color falso")
+
+import numpy as np
+from PIL import Image
+import matplotlib.pyplot as plt
+import funciones as fun
+
+Im = Image.open('building.jpg')
+Im_a = np.array(Im)
+Im_cmy = fun.my_rgb2cmy(Im_a)
+Im_rgb = fun.my_cmy2rgb(Im_cmy)
+
+plt.subplot(131)
+plt.imshow(Im_a)
+plt.axis("off")
+plt.subplot(132)
+plt.imshow(Im_cmy)
+plt.axis("off")
+plt.subplot(133)
+plt.imshow(Im_rgb)
+plt.axis("off")
+
+plt.figure()
+
+plt.subplot(231)
+plt.imshow(Im_a[:,:,0],cmap='gray')
+plt.axis("off")
+plt.subplot(232)
+plt.imshow(Im_a[:,:,1],cmap='gray')
+plt.axis("off")
+plt.subplot(233)
+plt.imshow(Im_a[:,:,2],cmap='gray')
+plt.axis("off")
+
+plt.subplot(234)
+plt.imshow(Im_cmy[:,:,0],cmap='gray')
+plt.axis("off")
+plt.subplot(235)
+plt.imshow(Im_cmy[:,:,1],cmap='gray')
+plt.axis("off")
+plt.subplot(236)
+plt.imshow(Im_cmy[:,:,2],cmap='gray')
+plt.axis("off")
+
+"""
+
+from PIL import Image
+import matplotlib.pyplot as plt
+
+Im = Image.open('coins.jpg').convert('L')
+
+umbral=160
+
+datos=Im.getdata()
+datos_binarios=[]
+
+for x in datos:
+    if x < umbral:
+        datos_binarios.append(1)
+        continue
+    #si es mayor o igual a umbral se agrega 1 en ves de 0
+    #podria hacerse con 255 en ves de 1
+    datos_binarios.append(0)
+
+ibn=Image.new('1', Im.size)
+ibn.putdata(datos_binarios)
+plt.figure()
+plt.gray()
+plt.imshow(ibn) 
+plt.title("Negro y Blanco")   
+
+
+
+
+
     
 
 
