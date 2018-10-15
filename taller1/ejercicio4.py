@@ -28,7 +28,7 @@ returnImage2 = fun.ycbcr2rgb(returnImage)
 Viewimage = np.uint8(returnImage2)
 plt.figure()
 plt.gray()
-plt.imshow(Viewimage)
+plt.imshow(Viewimage)   
 
 Viewimagedouble = np.double(Viewimage)
 returnImage3 = fun.rgb2ycbcr(Viewimagedouble)

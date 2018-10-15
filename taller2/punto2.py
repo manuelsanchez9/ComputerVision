@@ -16,29 +16,41 @@ Sobel. Luego, calcule el gradiente y Laplaciano. Incluir en el informe:
 import numpy as np
 from PIL import Image
 import matplotlib.pyplot as plt
-from scipy.ndimage import filters
 import funciones as fun
 
 Im_g = Image.open('build.jpg').convert('L')
 Im_ga = np.array(Im_g)
-
-Im_sobel = filters.sobel(Im_ga)
-plt.figure()
 plt.gray()
-plt.imshow(Im_sobel) 
-plt.title("Filtro Sobel")
+plt.imshow(Im_ga) 
+plt.title("Imagen Original")    
 
-[Ig, Ix, Iy] = fun.my_gradient(Im_sobel)
+[Ig, Ix, Iy] = fun.my_gradient(Im_ga)
 plt.figure()
 plt.gray()
 plt.imshow(Ig) 
 plt.title("Gradiente")    
 
-Im_laplaciano = filters.laplace(Im_ga)
+Im_g = Image.open('moon.jpg').convert('L')
+Im_ga = np.array(Im_g)
 plt.figure()
 plt.gray()
-plt.imshow(Im_laplaciano) 
-plt.title("Filtro Laplaciano")
+plt.imshow(Im_ga) 
+plt.title("Imagen en escala de grises")
+
+Imla4vec = fun.my_laplace_4_vecinos(Im_ga)
+Im_lap_mos4vec = np.uint8(Imla4vec)
+plt.figure()
+plt.gray()
+plt.imshow(Im_lap_mos4vec) 
+plt.title("Filtro Laplaciano con 4 vecinos")
+
+Imla8vec = fun.my_laplace_8_vecinos(Im_ga)
+Im_lap_mos8vec = np.uint8(Imla8vec) 
+plt.figure()
+plt.gray()
+plt.imshow(Im_lap_mos8vec) 
+plt.title("Filtro Laplaciano con 8 vecinos")
+
 
 
 

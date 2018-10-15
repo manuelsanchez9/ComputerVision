@@ -534,7 +534,7 @@ from PIL import Image
 import matplotlib.pyplot as plt
 import funciones as fun
 
-Im = Image.open('building.jpg')
+Im = Image.open('build.jpg')
 Im_a = np.array(Im)
 Im_cmy = fun.my_rgb2cmy(Im_a)
 Im_rgb = fun.my_cmy2rgb(Im_cmy)
@@ -571,8 +571,6 @@ plt.subplot(236)
 plt.imshow(Im_cmy[:,:,2],cmap='gray')
 plt.axis("off")
 
-"""
-
 from PIL import Image
 import matplotlib.pyplot as plt
 
@@ -587,8 +585,6 @@ for x in datos:
     if x < umbral:
         datos_binarios.append(1)
         continue
-    #si es mayor o igual a umbral se agrega 1 en ves de 0
-    #podria hacerse con 255 en ves de 1
     datos_binarios.append(0)
 
 ibn=Image.new('1', Im.size)
@@ -598,11 +594,86 @@ plt.gray()
 plt.imshow(ibn) 
 plt.title("Negro y Blanco")   
 
+from PIL import Image
+import matplotlib.pyplot as plt
+import funciones as fun
+import numpy as np
 
+Im = Image.open('coins.jpg').convert('L')
+image = np.array(Im)
 
+umbral=160
 
+ImTH = fun.my_threshold(Im,umbral)
 
-    
+plt.gray()
+plt.imshow(ImTH) 
+plt.title("Negro y Blanco")   
+
+from PIL import Image
+import matplotlib.pyplot as plt
+#import funciones as fun
+import numpy as np
+
+Im = Image.open('building.jpg')
+Im_a = np.array(Im)
+plt.imshow(Im_a)
+
+[row, col, nb] = Im_a.shape
+Im_n = np.zeros(Im_a.shape)
+Im_n = Im_a+125*np.random.rand(row,col,nb)
+Im_n = np.uint8(255*Im_n/Im_n.max())
+plt.figure()
+plt.imshow(Im_n)
+
+import funciones as fun
+
+[H, S, I] = fun.rgb2hsi((10),(20),(30))
+print ("valor de H: " + str(H))
+print ("valor de S: " + str(S))
+print ("valor de I: " + str(I))
+
+[R, G, B] = fun.hsi2rgb(210,50,20)
+print ("valor de R: " + str(R))
+print ("valor de G: " + str(G))
+print ("valor de B: " + str(B))
+
+from PIL import Image
+import numpy as np
+import matplotlib.pyplot as plt
+import funciones as fun
+
+Im = Image.open('build.jpg')
+Im_a = np.array(Im)
+plt.figure()
+plt.imshow(Im_a)
+plt.title('IMAGEN ORIGINAL')
+
+Im_cmy = fun.my_rgb2cmy(Im_a)
+plt.figure()
+plt.imshow(Im_cmy)
+plt.title('IMAGEN  CMY')
+
+Im_double = np.double(Im_a) 
+[row, col, nb] = Im_double.shape
+
+[H,S,I] = fun.rgb2hsi(row/255, col/255, nb/255)
+print ("valor de H: " + str(H))
+print ("valor de S: " + str(S))
+print ("valor de I: " + str(I))
+
+#Im_rgb = fun.my_cmy2rgb(Im_cmy)
+#plt.figure()
+#plt.imshow(Im_rgb)
+#plt.title('IMAGEN  RGB')
+#plt.axis("off")
+#
+#Im_hsi = fun.rgb2hsi(Im_rgb)
+#plt.figure()
+#plt.imshow(Im_hsi)
+#plt.title('IMAGEN  HSI')
+#plt.axis("off")
+"""
 
 
 

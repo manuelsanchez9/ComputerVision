@@ -9,7 +9,7 @@ Funciones
 """
 import numpy as np
 import scipy.signal as sg
-from PIL import Image
+import math
 
 def my_gamma(image,gamma):
     Im_ga = np.double(image)
@@ -114,6 +114,18 @@ def my_gradient(im):
     Im_grad = np.abs(Im_dx)+np.abs(Im_dy)
     return (Im_grad, Im_dy, Im_dx)
 
+def my_laplace_4_vecinos(im):
+    mask_dx = np.array([(0,-1,0),(-1,5,-1),(0,-1,0)])
+    Im_dx = sg.convolve2d(im,mask_dx)
+    imageReturn = np.uint8(255*Im_dx/Im_dx.max())
+    return (imageReturn)
+
+def my_laplace_8_vecinos(im):
+    mask_dx = np.array([(-1,-1,-1),(-1,9,-1),(-1,-1,-1)])
+    Im_dx = sg.convolve2d(im,mask_dx)
+    imageReturn = np.uint8(255*Im_dx/Im_dx.max())
+    return (imageReturn)
+
 def my_rgb2cmy(im):
     CMY = 255-im
     return CMY
@@ -128,20 +140,84 @@ def my_mseRGB(image1,image2):
     mse = sum(sum(sum((image1-image2)**2)))/N
     return mse
 
-def my_threshold(im,umbral):
-    datos=im.getdata()
-    datos_binarios=[]
+def my_threshold(image, umbral):
+    Image_lt = np.double(image)
+    Image_zero = np.zeros(Image_lt.shape)
+    Image_zero[(Image_lt>=umbral)]=1
+    imageResponse = np.uint8(Image_zero)
+    return imageResponse    
 
-    for x in datos:
-        if x < umbral:
-            datos_binarios.append(1)
-            continue
-    datos_binarios.append(0)
+def rgb2hsi(r,g,b):
+    numerador = (((r - g) + (r - b)) * 0.5)
+    denominador = ((((r - g)*(r - g)) + ((r - b) * (g - b)))**0.5)
+    
+    if (denominador == 0):
+        denominador = 0.000001
+    
+    theta = np.arccos(numerador/denominador)
+    
+    if(b<=g):
+        h = theta
+    if(b>g):
+        h = (2*np.degrees(math.pi)) - theta
+          
+    s = 1 - ((3*min(r,g,b))/float(r + b + g))
+        
+    if (s==0):
+        h=0
+    
+    i = float(r + g + b)/3
+    return (h, s, i)
 
-    ibn=Image.new('1', im.size)
-    ibn.putdata(datos_binarios)
+def hsi2rgb (H,S,I):
+    r=0
+    g=0
+    b=0
+    
+    if (H>=0 and H<((2*np.degrees(math.pi))/3)):
+        b = I*(1-S)
+        den = np.cos((math.pi/3)-H)
+        
+        if (den == 0):
+            den=0.000001
+        
+        r = I*(1+((S*np.cos(H))/den))
+        g = (3*I)-(r+b)
+    
+    if (H>=((2*np.degrees(math.pi))/3) and H<(4*((np.degrees(math.pi))/3))):
+        r = I*(1-S)
+        den = (np.cos(((math.pi)/3)-(H-((math.pi)/3))))
+        
+        if (den == 0):
+            den=0.000001
+        
+        g = I*(1+((S*np.cos(H-(math.pi/3))))/den)
+        b = (3*I)-(r+g)
+        
+    if (H>=(4*((np.degrees(math.pi))/3)) and H<(2*np.degrees(math.pi))):
+        g = I*(1-S)
+        den = (np.cos(((math.pi)/3)-(H-(4*((math.pi)/3)))))
+        
+        if (den == 0):
+            den=0.000001
+        
+        b = I*(1+((S*np.cos(H-(4*((math.pi)/3))))/den))
+        r = (3*I)-(g+b)
+        
+    return (r,g,b)
+        
+        
+        
+        
 
-
+            
+        
+    
+    
+    
+    
+    
+    
 
 
 
