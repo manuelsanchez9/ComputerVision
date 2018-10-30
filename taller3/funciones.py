@@ -9,7 +9,7 @@ Funciones
 """
 import numpy as np
 import scipy.signal as sg
-import math
+import cv2
 
 def my_gamma(image,gamma):
     Im_ga = np.double(image)
@@ -147,64 +147,59 @@ def my_threshold(image, umbral):
     imageResponse = np.uint8(Image_zero)
     return imageResponse    
 
-def rgb2hsi(r,g,b):
-    numerador = (((r - g) + (r - b)) * 0.5)
-    denominador = ((((r - g)*(r - g)) + ((r - b) * (g - b)))**0.5)
-    
-    if (denominador == 0):
-        denominador = 0.000001
-    
-    theta = np.arccos(numerador/denominador)
-    
-    if(b<=g):
-        h = theta
-    if(b>g):
-        h = (2*np.degrees(math.pi)) - theta
-          
-    s = 1 - ((3*min(r,g,b))/float(r + b + g))
-        
-    if (s==0):
-        h=0
-    
-    i = float(r + g + b)/3
-    return (h, s, i)
+def rgb2hsi(im):
+    HSI = np.double(np.zeros(im.shape))
+    R = np.double(im[:,:,0]/255)
+    G = np.double(im[:,:,1]/255)
+    B = np.double(im[:,:,2]/255)
+    ## Computing H
+    num = 0.5*((R-G)+(R-B))
+    den = ((R-G)**2+(R-B)*(G-B))**0.5+1/100000000000
+    theta = np.arccos(num/den)
+    temp = np.copy(theta)
+    temp[B>G]=2*np.pi-theta[B>G]
+    HSI[:,:,0]=temp
+    ## Computing S
+    temp = np.min([R,G,B],axis=0)
+    HSI[:,:,1]=1-3*temp/(R+G+B)
+    ## Computing I
+    HSI[:,:,2]=(R+G+B)/3
+    return HSI
 
-def hsi2rgb (H,S,I):
-    r=0
-    g=0
-    b=0
-    
-    if (H>=0 and H<((2*np.degrees(math.pi))/3)):
-        b = I*(1-S)
-        den = np.cos((math.pi/3)-H)
-        
-        if (den == 0):
-            den=0.000001
-        
-        r = I*(1+((S*np.cos(H))/den))
-        g = (3*I)-(r+b)
-    
-    if (H>=((2*np.degrees(math.pi))/3) and H<(4*((np.degrees(math.pi))/3))):
-        r = I*(1-S)
-        den = (np.cos(((math.pi)/3)-(H-((math.pi)/3))))
-        
-        if (den == 0):
-            den=0.000001
-        
-        g = I*(1+((S*np.cos(H-(math.pi/3))))/den)
-        b = (3*I)-(r+g)
-        
-    if (H>=(4*((np.degrees(math.pi))/3)) and H<(2*np.degrees(math.pi))):
-        g = I*(1-S)
-        den = (np.cos(((math.pi)/3)-(H-(4*((math.pi)/3)))))
-        
-        if (den == 0):
-            den=0.000001
-        
-        b = I*(1+((S*np.cos(H-(4*((math.pi)/3))))/den))
-        r = (3*I)-(g+b)
-        
-    return (r,g,b)
+def hsi2rgb (HSI):
+    [nf,nc,nb]=HSI.shape
+    RGB = np.double(np.zeros(HSI.shape))
+    H = HSI[:,:,0]
+    S = HSI[:,:,1]
+    I = HSI[:,:,2]
+    tempR = np.zeros((nf,nc))
+    tempG = np.zeros((nf,nc))
+    tempB = np.zeros((nf,nc))
+    ## Computing RG sector
+    tempB[(H>=0)&(H<=(2*np.pi/3))]=I[(H>=0)&(H<=(2*np.pi/3))]*(1-S[(H>=0)&(H<=(2*np.pi/3))])
+    tempR[(H>=0)&(H<=(2*np.pi/3))]=I[(H>=0)&(H<=(2*np.pi/3))]*(1+S[(H>=0)&(H<=(2*np.pi/3))]*np.cos(H[(H>=0)&(H<=(2*np.pi/3))])/np.cos(np.pi/3-H[(H>=0)&(H<=(2*np.pi/3))]))
+    tempG[(H>=0)&(H<=(2*np.pi/3))]=3*I[(H>=0)&(H<=(2*np.pi/3))]-(tempR[(H>=0)&(H<=(2*np.pi/3))]+tempB[(H>=0)&(H<=(2*np.pi/3))])
+    ## Computing GB sector
+    tempR[(H>(2*np.pi/3))&(H<=(4*np.pi/3))]=I[(H>(2*np.pi/3))&(H<=(4*np.pi/3))]*(1-S[(H>(2*np.pi/3))&(H<=(4*np.pi/3))])
+    tempG[(H>(2*np.pi/3))&(H<=(4*np.pi/3))]=I[(H>(2*np.pi/3))&(H<=(4*np.pi/3))]*(1+S[(H>(2*np.pi/3))&(H<=(4*np.pi/3))]*np.cos(H[(H>(2*np.pi/3))&(H<=(4*np.pi/3))]-2*np.pi/3)/np.cos(np.pi/3-(H[(H>(2*np.pi/3))&(H<=(4*np.pi/3))]-2*np.pi/3)))
+    tempB[(H>(2*np.pi/3))&(H<=(4*np.pi/3))]=3*I[(H>(2*np.pi/3))&(H<=(4*np.pi/3))]-(tempR[(H>(2*np.pi/3))&(H<=(4*np.pi/3))]+tempG[(H>(2*np.pi/3))&(H<=(4*np.pi/3))])
+    ## Computing GB sector
+    tempG[(H>(4*np.pi/3))&(H<=(2*np.pi))]=I[(H>(4*np.pi/3))&(H<=(2*np.pi))]*(1-S[(H>(4*np.pi/3))&(H<=(2*np.pi))])   
+    tempB[(H>(4*np.pi/3))&(H<=(2*np.pi))]=I[(H>(4*np.pi/3))&(H<=(2*np.pi))]*(1+S[(H>(4*np.pi/3))&(H<=(2*np.pi))]*np.cos(H[(H>(4*np.pi/3))&(H<=(2*np.pi))]-4*np.pi/3)/np.cos(np.pi/3-(H[(H>(4*np.pi/3))&(H<=(2*np.pi))]-4*np.pi/3)))
+    tempR[(H>(4*np.pi/3))&(H<=(2*np.pi))]=3*I[(H>(4*np.pi/3))&(H<=(2*np.pi))]-(tempG[(H>(4*np.pi/3))&(H<=(2*np.pi))]+tempB[(H>(4*np.pi/3))&(H<=(2*np.pi))])
+    ##
+    RGB[:,:,0]=tempR*255
+    RGB[:,:,1]=tempG*255
+    RGB[:,:,2]=tempB*255
+    RGB = np.uint8(RGB)
+    return RGB
+
+def frontera(img):
+    ret,thresh1 = cv2.threshold(255-img,190,255,cv2.THRESH_BINARY)
+    kernel = np.ones((3,3),np.uint8)
+    erosion = cv2.erode(255-thresh1,kernel,iterations = 1)
+    imgFrontera = (255-thresh1) - erosion  
+    return imgFrontera
         
         
         
