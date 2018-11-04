@@ -47,28 +47,16 @@ plt.title("Histograma de la Imagen Original en Escala de Grises")
 ret,thresh1 = cv2.threshold(255-img,190,255,cv2.THRESH_BINARY)
 plt.figure()
 plt.imshow(255-thresh1,cmap = 'gray')
-plt.title('Imagen Pasada por THRESHOLD (Binaria)')
+plt.title('Imagen Binaria')
 
-kernel = np.ones((3,3),np.uint8)
-
-erosion = cv2.erode(255-thresh1,kernel,iterations = 8)
-dilation = cv2.dilate(erosion,kernel,iterations = 1)
-erosion1 = cv2.erode(dilation,kernel,iterations = 8)
-dilation1 = cv2.dilate(erosion1,kernel,iterations = 1)
-opening = cv2.morphologyEx(dilation1,cv2.MORPH_OPEN, kernel)
-closing = cv2.morphologyEx(opening,cv2.MORPH_CLOSE, kernel)
-
-img = cv2.imread('cell.jpg',0)
-plt.imshow(img,cmap = 'gray')
-plt.title('Imagen Original en Escala de Grises')
-
+ret,thresh1 = cv2.threshold(img,135,155,cv2.THRESH_BINARY)
 plt.figure()
-plt.imshow(closing,cmap = 'gray')
-plt.title('Separar cada Celula')
+plt.imshow(thresh1,cmap = 'gray')
+plt.title('Imagen Separando Celulas')
 
-imgFrontera = fun.frontera(img)  
+imgFrontera = fun.frontera5x5(img)  
 plt.figure()
 plt.imshow(imgFrontera,cmap = 'gray')
-plt.title('Imagen Frontera con 3 x 3')
+plt.title('Imagen Frontera con 5 x 5')
 
 

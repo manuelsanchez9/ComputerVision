@@ -194,25 +194,16 @@ def hsi2rgb (HSI):
     RGB = np.uint8(RGB)
     return RGB
 
-def frontera(img):
+def frontera3x3(img):
     ret,thresh1 = cv2.threshold(255-img,190,255,cv2.THRESH_BINARY)
     kernel = np.ones((3,3),np.uint8)
     erosion = cv2.erode(255-thresh1,kernel,iterations = 1)
     imgFrontera = (255-thresh1) - erosion  
     return imgFrontera
-        
-        
-        
-        
 
-            
-        
-    
-    
-    
-    
-    
-    
-
-
-
+def frontera5x5(img):
+    ret,thresh1 = cv2.threshold(255-img,190,255,cv2.THRESH_BINARY)
+    kernel = np.ones((5,5),np.uint8)
+    erosion = cv2.erode(255-thresh1,kernel,iterations = 1)
+    imgFrontera = (255-thresh1) - erosion  
+    return imgFrontera

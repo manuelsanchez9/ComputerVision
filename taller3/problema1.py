@@ -78,7 +78,7 @@ plt.imshow(closing,cmap = 'gray')
 plt.axis("off")
 plt.title('Imagen con Closing')
 
-imgFrontera = fun.frontera(img)  
+imgFrontera = fun.frontera3x3(img)  
 plt.figure()
 plt.imshow(imgFrontera,cmap = 'gray')
 plt.title('Imagen Frontera con 3 x 3')
