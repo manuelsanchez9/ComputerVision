@@ -10,7 +10,7 @@ import cv2
 from matplotlib import pyplot as plt
 import funciones as fun
 
-img = cv2.imread('vis.jpg',0)
+img = cv2.imread('img7.jpg',0)
 plt.imshow(img,cmap = 'gray')
 plt.title('Imagen Original en Escala de Grises')
 
@@ -19,7 +19,7 @@ plt.figure()
 plt.bar(np.arange(256),h)
 plt.title("Histograma de la Imagen Original en Escala de Grises")
 
-imgGW = fun.grayWhite(img,100,255) 
+imgGW = fun.grayWhite(img,40,170) 
 plt.figure()
 plt.imshow(imgGW,cmap = 'gray')
 plt.title('Imagen Pasada Realce de Grises')

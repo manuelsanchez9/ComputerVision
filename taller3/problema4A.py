@@ -12,11 +12,11 @@ import cv2
 from matplotlib import pyplot as plt
 from sklearn.cluster import KMeans
 
-img = cv2.imread('church.jpg')
+img = cv2.imread('img7.jpg')
 [nf,nc,nb] = img.shape
 plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
 plt.axis('off')
-N=3
+N=7
 img2 = np.reshape(img,(nf*nc,nb))
 kmeans = KMeans(n_clusters=N, random_state=0).fit(img2)
 C = kmeans.labels_

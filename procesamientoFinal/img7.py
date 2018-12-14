@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-Created on Wed Nov 07 16:52:14 2018
+Created on Sat Nov 24 15:35:01 2018
 
 @author: Manuel Andres Sanchez Muñoz
+@author: Getulio Rafael Vargas Sierra
+@author: Juan Fernando ...
 """
 
 import numpy as np
@@ -13,11 +15,12 @@ import funciones as fun
 import cv2
 from sklearn.cluster import KMeans
 
-image = Image.open('plant2n.jpg').convert('RGB')
+image = Image.open('img7.jpg').convert('RGB')
 plt.figure()
 plt.gray()
 plt.imshow(image)
-plt.title('Imagen Original')
+plt.axis('off')
+plt.title('Imagen 7 Original')
 
 Viewimagedouble = np.double(image)
 returnImage3 = fun.rgb2ycbcr(Viewimagedouble)
@@ -32,7 +35,8 @@ finalImage = np.uint8(previousImage)
 plt.figure()
 plt.gray()
 plt.imshow(finalImage)
-plt.title('Imagen Ecualizada YcbCr')
+plt.axis('off')
+plt.title('Imagen 7 Ecualizada YcbCr')
 
 Im_ga = np.array(finalImage)
 
@@ -41,9 +45,9 @@ Im_f1 = filters.uniform_filter(Im_ga,5)
 plt.figure()
 plt.gray()
 plt.imshow(Im_f1)
-plt.title("Imagen filtrada con Uniforme")
+plt.title("Imagen 7 filtrada con Uniforme")
 
-img = cv2.imread('imagen.png')
+img = cv2.imread('imagen7YCBCR.png')
 [nf,nc,nb] = img.shape
 plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
 plt.axis('off')
@@ -63,20 +67,3 @@ for i in range(1,N):
     plt.figure()
     plt.imshow(mask,cmap='gray')
     plt.axis('off')  
-
-kernel = np.ones((5,5),np.uint8)
-erosion = cv2.erode(255-mask,kernel,iterations = 1)
-dilation = cv2.dilate(erosion,kernel,iterations = 1)
-opening = cv2.morphologyEx(dilation,cv2.MORPH_OPEN, kernel)
-
-plt.figure()
-plt.imshow(opening,cmap = 'gray')
-plt.title('Imagen Final')
-
-
-
-
-
-
-
-
